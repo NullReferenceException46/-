@@ -1,7 +1,8 @@
+<!-- Сразу раскаиваюсь: Все стили в проекте писал ИИ, я старался написать максимум своего, но все что я получил так это то что я где-то 3 раза переписывал вручную то что написал этот же ИИ -->
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 const newTask = ref("");
-const tasks = ref([]);
+const tasks = ref(JSON.parse(localStorage.getItem("tasks")) || []);
 
 function addNew() {
   if (!newTask.value.trim()) return;
@@ -16,21 +17,28 @@ function removeTask(index) {
 function done(task) {
   task.done = !task.done;
 }
+watch(
+  tasks,
+  (newTask) => {
+    localStorage.setItem("tasks", JSON.stringify(newTask));
+  },
+  { deep: true },
+);
 </script>
 
 <template>
   <div class="todo-app">
     <h1>Создай заметку</h1>
-    <form v-on:submit.prevent="addNew">
+    <form @submit.prevent="addNew">
       <div class="input-row">
         <input v-model="newTask" placeholder="Что нужно сделать?" autofocus />
-        <button type="submint">Добавить</button>
+        <button type="submit">Добавить</button>
       </div>
       <ul>
         <li
           v-for="(task, index) in tasks"
           :key="index"
-          class="{done: task.done}"
+          :class="{ done: task.done }"
         >
           <input type="checkbox" :checked="task.done" @change="done(task)" />
           <span @click="done(task)">{{ task.text }}</span>
