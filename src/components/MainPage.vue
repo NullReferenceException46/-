@@ -2,7 +2,7 @@
   <div class="container">
     <p>Мини кликер по фану:</p>
 
-    <button @click="clickHandler" class="button" :disabled="isButtonDisabled">
+    <button @click="clickHandler" :class="button" :disabled="isButtonDisabled">
       Кликни меня: {{ count }}
     </button>
     <p v-if="count === 50">Уже 50 кликов!</p>
@@ -29,8 +29,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-let count = ref(0);
+import { ref, watch } from "vue";
+import { useStorage } from "@vueuse/core";
+
+let count = useStorage("count", 0);
 const isButtonDisabled = ref(false);
 
 function disableButtonFor(seconds = 2) {
@@ -50,6 +52,9 @@ function clickHandler() {
     disableButtonFor(2);
   }
 }
+watch(count, (newCount) => {
+  localStorage.setItem("count", newCount);
+});
 </script>
 
 <style>

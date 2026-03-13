@@ -1,8 +1,9 @@
 <!-- Сразу раскаиваюсь: Все стили в проекте писал ИИ, я старался написать максимум своего, но все что я получил так это то что я где-то 3 раза переписывал вручную то что написал этот же ИИ -->
 <script setup>
 import { ref, watch } from "vue";
+import { useStorage } from "@vueuse/core";
 const newTask = ref("");
-const tasks = ref(JSON.parse(localStorage.getItem("tasks")) || []);
+const tasks = useStorage("tasks", []);
 
 function addNew() {
   if (!newTask.value.trim()) return;
@@ -17,13 +18,6 @@ function removeTask(index) {
 function done(task) {
   task.done = !task.done;
 }
-watch(
-  tasks,
-  (newTask) => {
-    localStorage.setItem("tasks", JSON.stringify(newTask));
-  },
-  { deep: true },
-);
 </script>
 
 <template>

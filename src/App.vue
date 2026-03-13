@@ -2,6 +2,7 @@
 import MainPage from "./components/MainPage.vue";
 import NavBar from "./components/NavBar.vue";
 import router from "./components/router";
+import "./assets/main.css";
 </script>
 <template>
   <div>

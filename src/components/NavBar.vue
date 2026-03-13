@@ -2,22 +2,14 @@
   <nav class="navbar">
     <div class="navbar-container">
       <div class="nav-links">
-        <a
-          href="https://github.com/NullReferenceException46"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://github.com/NullReferenceException46" target="_blank">
           <img
             src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
             alt="ГитХаб"
           />
         </a>
 
-        <a
-          href="https://t.me/NoSyrneke"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://t.me/NoSyrneke" target="_blank">
           <img
             src="https://icons.veryicon.com/png/o/application/awesome-common-free-open-source-icon/telegram-4.png"
             alt="Телега"
@@ -26,12 +18,18 @@
         <a
           href="https://open.spotify.com/user/31af7kpctcj7uchciw5uyjw2ivsi?si=6b596e862d8b4006"
           target="_blank"
-          rel="noopener noreferrer"
         >
           <img
             src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_Black.png"
             alt="Спотифайчик"
+            target="_blank"
         /></a>
+        <a href="https://discord.gg/zGPK6Qsf" target="_blank">
+          <img
+            src="https://www.freeiconspng.com/uploads/discord-black-icon-1.png"
+            alt="Дискорд сервер"
+          />
+        </a>
       </div>
 
       <div class="nav-links">
@@ -45,12 +43,28 @@
         <router-link to="/todo" class="nav-link" active-class="active">
           Мини TODO
         </router-link>
+        <button @click="toggleTheme" class="theme-toggle" id="changebtn">
+          {{ theme === "light" ? "Тёмная" : "Светлая" }}
+        </button>
       </div>
     </div>
   </nav>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted, ref } from "vue";
+
+const theme = ref(localStorage.getItem("theme" || "light"));
+
+function toggleTheme() {
+  theme.value = theme.value === "light" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", theme.value);
+  localStorage.setItem("theme", theme.value);
+}
+onMounted(() => {
+  document.documentElement.setAttribute("data-theme", theme.value);
+});
+</script>
 
 <style scoped>
 .navbar {
@@ -111,7 +125,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background: #60a5fa;
+  background: #39047e;
 }
 
 .nav-right {
@@ -121,7 +135,7 @@
 }
 
 .btn-login {
-  background: #3b82f6;
+  background: #39047e;
   color: white;
   border: none;
   padding: 8px 20px;
@@ -132,7 +146,7 @@
 }
 
 .btn-login:hover {
-  background: #2563eb;
+  background: #39047e;
 }
 
 @media (max-width: 768px) {
@@ -144,5 +158,10 @@ img {
   width: 30px;
   height: 30px;
   margin: 0;
+}
+#changebtn {
+  color: #c7abab;
+  background-color: #20004b;
+  border-radius: 15px;
 }
 </style>
